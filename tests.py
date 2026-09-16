@@ -32,8 +32,10 @@ def run_tests(url, test_cases):
          print("TESTS FILE:", __file__)
          print("HEADLESS MODE: TRUE")
 
-    browser = p.chromium.launch(headless=True)
-
+    browser = p.chromium.launch(
+        headless=True,
+        args=["--no-sandbox", "--disable-dev-shm-usage"]
+    )
 
     request_context = p.request.new_context()
 
