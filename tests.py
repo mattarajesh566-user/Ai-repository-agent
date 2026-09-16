@@ -289,7 +289,7 @@ def run_tests(url, test_cases):
                     except Exception:
                         pass
 
-        request_context.dispose()
-        browser.close()
+            request_context.dispose()
+            browser.close()
 
     return results
