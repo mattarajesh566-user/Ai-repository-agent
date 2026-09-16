@@ -1,3 +1,5 @@
+import streamlit as st
+
 from explorer import explore_website
 from test_generator import generate_test_cases
 from tests import run_tests
@@ -5,51 +7,69 @@ from reporter import generate_report
 from ai_agent import analyze_test_results
 
 
+st.set_page_config(
+    page_title="AI Regression Testing Agent",
+    page_icon="🧪",
+    layout="wide"
+)
+
+
 def main():
+    st.title("🧪 AI Regression Testing Agent")
+    st.write("Enter a website URL to explore, test, and generate an AI analysis report.")
 
-    print("\n================================")
-    print("      AI REGRESSION TESTING AGENT")
-    print("================================")
+    url = st.text_input(
+        "Enter website URL",
+        placeholder="https://www.saucedemo.com/"
+    )
 
-    url = input("\nEnter website URL: ")
+    if st.button("Start Regression Testing"):
+        if not url:
+            st.warning("Please enter a website URL.")
+            return
 
-    print("\nStarting website exploration...")
+        try:
+            with st.spinner("Exploring website..."):
+                elements = explore_website(url)
 
-    elements = explore_website(url)
+            st.success("Website exploration completed.")
 
-    print("\nGenerating test cases...")
+            with st.spinner("Generating test cases..."):
+                test_cases = generate_test_cases(elements)
 
-    test_cases = generate_test_cases(elements)
+            st.write("Total Generated Test Cases:", len(test_cases))
 
-    print("\nTotal Generated Test Cases:", len(test_cases))
+            with st.spinner("Running regression tests..."):
+                results = run_tests(url, test_cases)
 
-    print("\nStarting regression tests...")
+            st.success("Regression tests completed.")
 
-    results = run_tests(url, test_cases)
+            st.subheader("Test Results")
+            st.write(results)
 
-    print("\n================================")
-    print("       GEMINI AI ANALYSIS")
-    print("================================")
+            with st.spinner("Analyzing test results with Gemini AI..."):
+                try:
+                    ai_analysis = analyze_test_results(results)
 
-    try:
-        ai_analysis = analyze_test_results(results)
+                    st.subheader("Gemini AI Analysis")
+                    st.write(ai_analysis)
 
-        print("\nAI Testing Analysis:\n")
-        print(ai_analysis)
+                except Exception as error:
+                    st.error(f"Gemini analysis failed: {error}")
 
-    except Exception as error:
-        print("\nGemini analysis failed.")
-        print("Error:", error)
+            with st.spinner("Generating HTML report..."):
+                generate_report(results)
 
-    print("\nGenerating HTML report...")
+            st.success("HTML report created successfully.")
 
-    generate_report(results)
+            st.info(
+                "The report was generated as report.html. "
+                "If the report is not visible online, the report file must be displayed "
+                "inside Streamlit or saved using another deployment method."
+            )
 
-    print("\n================================")
-    print("       PROCESS COMPLETED")
-    print("================================")
-
-    print("\nHTML report created: report.html")
+        except Exception as error:
+            st.error(f"Testing failed: {error}")
 
 
 if __name__ == "__main__":
