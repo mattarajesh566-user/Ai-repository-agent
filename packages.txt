@@ -15,3 +15,8 @@ libxfixes3
 libxrandr2
 libgbm1
 libasound2
+libx11-xcb1
+libxcb-dri3-0
+libxcursor1
+libxi6
+libxtst6
