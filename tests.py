@@ -1,4 +1,3 @@
-
 from playwright.sync_api import sync_playwright
 import os
 from urllib.parse import urljoin
@@ -29,17 +28,17 @@ def run_tests(url, test_cases):
 
     with sync_playwright() as p:
 
-         print("TESTS FILE:", __file__)
-         print("HEADLESS MODE: TRUE")
+        print("TESTS FILE:", __file__)
+        print("HEADLESS MODE: TRUE")
 
-    browser = p.chromium.launch(
-        headless=True,
-        args=["--no-sandbox", "--disable-dev-shm-usage"]
-    )
+        browser = p.chromium.launch(
+            headless=True,
+            args=["--no-sandbox", "--disable-dev-shm-usage"]
+        )
 
-    request_context = p.request.new_context()
+        request_context = p.request.new_context()
 
-    for test_case in test_cases:
+        for test_case in test_cases:
 
             print("\n================================")
             print("RUNNING:", test_case)
@@ -291,7 +290,7 @@ def run_tests(url, test_cases):
                     except Exception:
                         pass
 
-            request_context.dispose()
-            browser.close()
+        request_context.dispose()
+        browser.close()
 
     return results
