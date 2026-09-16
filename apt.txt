@@ -1,4 +1,5 @@
 xvfb
+xauth
 libnss3
 libnspr4
 libatk1.0-0
