@@ -29,10 +29,15 @@ def run_tests(url, test_cases):
 
     with sync_playwright() as p:
 
-        browser = p.chromium.launch(headless=True)
-        request_context = p.request.new_context()
+         print("TESTS FILE:", __file__)
+         print("HEADLESS MODE: TRUE")
 
-        for test_case in test_cases:
+    browser = p.chromium.launch(headless=True)
+
+
+    request_context = p.request.new_context()
+
+    for test_case in test_cases:
 
             print("\n================================")
             print("RUNNING:", test_case)
